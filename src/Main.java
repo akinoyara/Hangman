@@ -1,3 +1,5 @@
+import org.w3c.dom.ls.LSOutput;
+
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.*;
@@ -126,6 +128,7 @@ public class Main{
         int wordNumber;
         File file = new File("WordsForHangman.txt");
 
+        System.out.println("UpDSTHUGHSFUGHS:");
         Scanner scanner = new Scanner(file);
         String[] wordsArray = scanner.nextLine().split(" ");
         Random random = new Random();
@@ -174,5 +177,6 @@ public class Main{
         }
         System.out.println("\n");
     }
+
 }
 
