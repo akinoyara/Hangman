@@ -1,12 +1,10 @@
-import org.w3c.dom.ls.LSOutput;
-
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.*;
 import java.util.regex.Pattern;
 
 public class Main{
-    public static int MISTAKES = 0;
+    public static int countMistakes = 0;
     public static String[] states= {
             """
                +---+
@@ -73,42 +71,41 @@ public class Main{
 
     public static void main(String[] args) throws FileNotFoundException {
 
-        Pattern pattern = Pattern.compile("[а-яё]");
 
         Scanner scanner = new Scanner(System.in);
 
         while (true) {
             System.out.println("[N]ew game or [E]xit");
-            String choose = scanner.nextLine().trim();
-            switch (choose) {
+            String userChoice = scanner.nextLine().trim();
+            switch (userChoice) {
                 case "N":
-                    char[] answerLetters = defineWord().toCharArray();
+                    char[] answerLetters = getGuessedWord().toCharArray();
 
                     System.out.println("Слово загадано!");
 
-                    char[] guessed = new char [answerLetters.length];
+                    char[] guessedLetters = new char [answerLetters.length];
 
                     Set<Character> usedLetters = new LinkedHashSet<>();
 
-                    Arrays.fill(guessed, '*');
+                    Arrays.fill(guessedLetters, '*');
 
-                    while (MISTAKES < 6 && !Arrays.equals(answerLetters, guessed)) {
+                    while (countMistakes < 6 && !Arrays.equals(answerLetters, guessedLetters)) {
                         System.out.print("Введите букву: ");
                         try {
-                            char input = scanner.nextLine().trim().toLowerCase().charAt(0);
-                            gameRealization(answerLetters, input, guessed, usedLetters);
+                            char userInput = scanner.nextLine().trim().toLowerCase().charAt(0);
+                            processGuess(answerLetters, userInput, guessedLetters, usedLetters);
                         } catch (StringIndexOutOfBoundsException inputSpace){
                             System.out.println("Вы ввели пустое поле. Попробуйте еще раз!");
                         }
 
                     }
-                    if (MISTAKES== 6) {
+                    if (countMistakes == 6) {
                         System.out.println("Вы проиграли, правильное слово:\n " + new String(answerLetters));
-                        MISTAKES=0;
+                        countMistakes =0;
                         break;
                     } else {
                         System.out.println("Вы выиграли");
-                        MISTAKES=0;
+                        countMistakes =0;
                     }
                     break;
 
@@ -123,8 +120,8 @@ public class Main{
 
     }
 
-    public static String defineWord() throws FileNotFoundException {
-        String separator = File.separator;
+    public static String getGuessedWord() throws FileNotFoundException {
+
         int wordNumber;
         File file = new File("WordsForHangman.txt");
 
@@ -136,7 +133,7 @@ public class Main{
         return wordsArray[wordNumber];
 
     }
-    public static void gameRealization(char[] answer, char input, char[] usersAnswer, Set<Character> usedLetters){
+    public static void processGuess(char[] answer, char input, char[] usersAnswer, Set<Character> usedLetters){
 
         boolean isCorrectLetter=false;
 
@@ -157,19 +154,19 @@ public class Main{
             }
         }
         if (!isCorrectLetter){
-            System.out.print(states[++MISTAKES] + "\n");
+            System.out.print(states[++countMistakes] + "\n");
             for (char key: usersAnswer){
                 System.out.print(key + " ");
             }
         }
         else{
-            System.out.print(states[MISTAKES] + "\n");
+            System.out.print(states[countMistakes] + "\n");
             for (char key: usersAnswer){
                 System.out.print(key + " ");
             }
 
         };
-        System.out.println("\nОшибок: " + MISTAKES + " из 6");
+        System.out.println("\nОшибок: " + countMistakes + " из 6");
         System.out.println("\nВы использовали буквы: ");
         for(char item: usedLetters){
             System.out.print(item + " ");
