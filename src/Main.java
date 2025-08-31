@@ -128,7 +128,6 @@ public class Main{
         int wordNumber;
         File file = new File("WordsForHangman.txt");
 
-        System.out.println("UpDSTHUGHSFUGHS:");
         Scanner scanner = new Scanner(file);
         String[] wordsArray = scanner.nextLine().split(" ");
         Random random = new Random();
