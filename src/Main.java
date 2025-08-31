@@ -1,7 +1,6 @@
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.*;
-import java.util.regex.Pattern;
 
 public class Main{
     public static int countMistakes = 0;
@@ -69,7 +68,7 @@ public class Main{
 
     };
 
-    public static void main(String[] args) throws FileNotFoundException {
+    public static void main(String[] args) throws FileNotFoundException, StringIndexOutOfBoundsException {
 
 
         Scanner scanner = new Scanner(System.in);
@@ -105,7 +104,7 @@ public class Main{
                         break;
                     } else {
                         System.out.println("Вы выиграли");
-                        countMistakes =0;
+                        countMistakes = 0;
                     }
                     break;
 
@@ -123,7 +122,7 @@ public class Main{
     public static String getGuessedWord() throws FileNotFoundException {
 
         int wordNumber;
-        File file = new File("WordsForHangman.txt");
+        File file = new File("src/WordsForHangman.txt");
 
         Scanner scanner = new Scanner(file);
         String[] wordsArray = scanner.nextLine().split(" ");
